@@ -2,12 +2,42 @@
 import "./App.css";
 import { Component } from "react";
 
+const WhoIsBig = (First, Second) => {
+  if (First === Second) {
+    return "Tie";
+  }
+  switch (First) {
+    case "Rock":
+      if (Second === "Scissors") {
+        return First;
+      } else {
+        return Second;
+      }
+    case "Paper":
+      if (Second === "Rock") {
+        return First;
+      } else {
+        return Second;
+      }
+    case "Scissors":
+      if (Second === "Paper") {
+        return First;
+      } else {
+        return Second;
+      }
+    default:
+  }
+};
+
 class App extends Component {
+  setData(){
+    localStorage.setItem('myData',JSON.stringify(this.state.Name))
+  }
   state = {
     Started: false,
     Player: null,
     Computer: null,
-    Name: ""
+    Name: "",
   };
 
   render() {
@@ -22,24 +52,37 @@ class App extends Component {
         <h1>Rock Paper Scissors</h1>
         {Started ? (
           <div className="Game">
-            <div className="Player">
+            <div className={"Player" + (Player ? " selected" : "")}>
               <p>Player</p>
               {Player ? (
                 <img src={Images[Player]} alt={Player} />
               ) : (
-              <div className="choose">
-                {Object.keys(Images).map((a) => (
-                  <span key={a}>
-                    <img src={Images[a]} alt={a} />
-                    {a}
-                  </span>
-                ))}
-              </div>
+                <div className="choose">
+                  {Object.keys(Images).map((a) => (
+                    <span
+                      key={a}
+                      onClick={() => {
+                        this.setState({
+                          Player: a,
+                          Computer:
+                            Object.keys(Images)[
+                              Math.floor(
+                                Math.random() * Object.keys(Images).length
+                              )
+                            ],
+                        });
+                      }}
+                    >
+                      <img src={Images[a]} alt={a} />
+                      {a}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
             <div className="Computer">
               <p>Computer</p>
-            {Computer ? (
+              {Computer ? (
                 <img src={Images[Computer]} alt={Computer} />
               ) : (
                 <img src="https://i.imgur.com/CyvHqQH.png" alt="All Choices" />
@@ -47,14 +90,56 @@ class App extends Component {
             </div>
           </div>
         ) : (
-          <img
-            src="https://i.imgur.com/iO8f1Lk.jpg"
-            alt="start"
-            className="start"
-            onClick={() => {
-              this.setState({ Started: true });
-            }}
-          />
+          <div className="Intro">
+            <input
+              type="text"
+              placeholder="Enter your name, at least 3 characters long..."
+              value={Name}
+              onClick={()=>this.setData()}
+              onChange={(e) => {
+                this.setState({ Name: e.target.value });
+              }}
+            />
+            {Name.trim().length > 2 && (
+              <img
+                className="start"
+                src="https://i.imgur.com/iO8f1Lk.jpg"
+                alt="Start"
+                onClick={() => {
+                  this.setState({
+                    Started: true
+                  });
+                }}
+              />
+            )}
+          </div>
+        )}
+        {Player && Computer && (
+          <p className="Results">
+            {(() => {
+              const Winner = WhoIsBig(Player, Computer);
+              if (Winner === "Tie") {
+                return "Nobody Wins!😐";
+              } else {
+                if (Winner === Player) {
+                  return Name + " Wins!🏆";
+                } else {
+                  return "Computer Wins!🤓";
+                }
+              }
+            })()}
+            <img
+              src="https://i.imgur.com/529CybI.png"
+              alt="Restart"
+              onClick={() => {
+                this.setState({
+                  Started: false,
+                  Player: null,
+                  Computer: null,
+                });
+              }}
+            />
+          </p>
         )}
       </div>
     );

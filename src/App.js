@@ -4,39 +4,46 @@ import { Component } from "react";
 
 class App extends Component {
   state = {
-    started: false,
+    Started: false,
+    Player: null,
+    Computer: null,
+    Name: ""
   };
 
   render() {
-    const { started } = this.state;
-    const [Rock, Paper, Scissors] = [
-      "https://i.imgur.com/TONXH9s.png",
-      "https://i.imgur.com/t2154qR.png",
-      "https://i.imgur.com/SXstPKk.png"
-    ];
+    const { Started, Player, Computer, Name } = this.state;
+    const Images = {
+      Rock: "https://i.imgur.com/TONXH9s.png",
+      Paper: "https://i.imgur.com/t2154qR.png",
+      Scissors: "https://i.imgur.com/SXstPKk.png",
+    };
     return (
       <div className="App">
         <h1>Rock Paper Scissors</h1>
-        {started ? (
+        {Started ? (
           <div className="Game">
             <div className="Player">
               <p>Player</p>
+              {Player ? (
+                <img src={Images[Player]} alt={Player} />
+              ) : (
               <div className="choose">
-                  {[
-                  [Rock, "Rock"],
-                  [Paper, "Paper"],
-                  [Scissors, "Scissors"]
-                ].map((a) => (
-                    <span key={a[1]}>
-                    <img src={a[0]} alt={a[1]} />
-                      {a[1]}
-                    </span>
-                  ))}
+                {Object.keys(Images).map((a) => (
+                  <span key={a}>
+                    <img src={Images[a]} alt={a} />
+                    {a}
+                  </span>
+                ))}
               </div>
+              )}
             </div>
             <div className="Computer">
               <p>Computer</p>
-              <img src="https://i.imgur.com/CyvHqQH.png" alt="All Choices" />
+            {Computer ? (
+                <img src={Images[Computer]} alt={Computer} />
+              ) : (
+                <img src="https://i.imgur.com/CyvHqQH.png" alt="All Choices" />
+              )}
             </div>
           </div>
         ) : (
@@ -45,7 +52,7 @@ class App extends Component {
             alt="start"
             className="start"
             onClick={() => {
-              this.setState({ started: true });
+              this.setState({ Started: true });
             }}
           />
         )}

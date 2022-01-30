@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/hand-game/static/css/main.7ee82280.css",
+    "main.js": "/hand-game/static/js/main.ed450e52.js",
+    "static/js/787.7b3369da.chunk.js": "/hand-game/static/js/787.7b3369da.chunk.js",
+    "index.html": "/hand-game/index.html",
+    "main.7ee82280.css.map": "/hand-game/static/css/main.7ee82280.css.map",
+    "main.ed450e52.js.map": "/hand-game/static/js/main.ed450e52.js.map",
+    "787.7b3369da.chunk.js.map": "/hand-game/static/js/787.7b3369da.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7ee82280.css",
+    "static/js/main.ed450e52.js"
+  ]
+}
